@@ -282,7 +282,12 @@ wezterm.on(
     -- start and end hardcoded numbers are the Powerline + " " padding
     local fillerwidth = 2 + string.len(index) + string.len(pane_count) + 2
 
-    local tabtitle = tab.active_pane.title
+    -- prefer manually renamed title over active pane title
+    local tabtitle = tab.tab_title
+    if #tabtitle <= 0 then
+      tabtitle = tab.active_pane.title
+    end
+
     local width = conf.tab_max_width - fillerwidth - 1
     if (#tabtitle + fillerwidth) > conf.tab_max_width then
       tabtitle = wezterm.truncate_right(tabtitle, width) .. "…"
